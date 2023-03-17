@@ -1,3 +1,4 @@
+from pydub import AudioSegment
 import wave
 
 class Convert():
@@ -6,21 +7,17 @@ class Convert():
         pass
 
     
-    def ram_to_wave(ram_file, wav_path):
-        ram_file = wave.open(ram_file, 'rb')
-        num_channels = 1
-        sample_rate = 8000
+    def raw_to_wav(raw_file, wav_path):
+        channels = 1
         sample_width = 2
+        frame_rate = 8000
         
-        wav_file = wave.open(f'{wav_path}', 'wb')
-        wav_file.setnchannels(num_channels)
-        wav_file.setframerate(sample_rate)
-        wav_file.setsampwidth(sample_width)
-        
-        data = ram_file.readframes(ram_file.getnframes())
-        wav_file.writeframes(data)
-        
-        ram_file.close()
-        wav_file.close()
+        audio = AudioSegment.from_raw(raw_file, sample_width=sample_width, channels=channels, frame_rate=frame_rate)
+        audio.export(wav_path, format="wav")
+    
+    
+    def mp3_to_wav(mpr3_file, wav_path):
+        audio = AudioSegment(mpr3_file)
+        audio.export(wav_path, format("wav"))
 
 # TODO testar classe
