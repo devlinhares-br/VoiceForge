@@ -1,13 +1,8 @@
 from pydub import AudioSegment
-import wave
 
 class Convert():
-    
-    def __init__():
-        pass
-
-    
-    def raw_to_wav(raw_file, wav_path):
+     
+    def raw_to_wav(self, raw_file, wav_path):
         channels = 1
         sample_width = 2
         frame_rate = 8000
@@ -16,8 +11,12 @@ class Convert():
         audio.export(wav_path, format="wav")
     
     
-    def mp3_to_wav(mpr3_file, wav_path):
-        audio = AudioSegment(mpr3_file)
+    def mp3_to_wav(self, mp3_file, wav_path):
+
+        
+        audio = AudioSegment.from_mp3(mp3_file)
+
         audio.export(wav_path, format("wav"))
+
 
 # TODO testar classe
