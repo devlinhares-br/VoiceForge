@@ -1,5 +1,5 @@
-env/
 .env
+env/
 app/__pycache__/*
 app/audio_files/backs/*
 app/audio_files/temp/*
