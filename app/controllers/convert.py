@@ -11,12 +11,6 @@ class Convert():
         audio.export(wav_path, format="wav")
     
     
-    def mp3_to_wav(self, mp3_file, wav_path):
-
-        
-        audio = AudioSegment.from_mp3(mp3_file)
-
-        audio.export(wav_path, format("wav"))
 
 
 # TODO testar classe

@@ -7,14 +7,17 @@ from config import *
 class Speech():
     
     def __init__(self) -> None:
-        self.__a_key = os.getenv['A_key'] or None
-        self.__a_region = os.getenv['A_region'] or None
+        self.__a_key = os.getenv('A_key') or None
+        self.__a_region = os.getenv('A_region') or None
         self.__speech_config = speechsdk.SpeechConfig(subscription=self.__a_key, region=self.__a_region)
         self.__speech_config.set_speech_synthesis_output_format(speechsdk.SpeechSynthesisOutputFormat(17))
-        self.__speech_config.speech_synthesis_voice_name = "pt-BR-FranciscaNeural"
+        
+
+    def set_voz(self, voz):
+        self.__speech_config.speech_synthesis_voice_name = voz
         self.__synthesizer = speechsdk.SpeechSynthesizer(speech_config = self.__speech_config)
 
-    
+ 
     def read_text(self, text):
         response = self.__synthesizer.speak_text(text)
         

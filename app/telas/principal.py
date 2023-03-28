@@ -3,7 +3,11 @@ from tkinter import ttk
 from app.telas.menu_principal import MenuPrincipal
 from app.telas.typography import Typography as font
 from app.telas.status_bar import Status_Bar
+from app.controllers.lists import Lists
+from app.controllers.read import Speech
+from app.controllers.convert import Convert
 from threading import Thread as th
+from pygame import mixer as mx
 
 
 class Principal:
@@ -11,6 +15,10 @@ class Principal:
         self.root = Tk()
         self.root.title("VoiceForge")
         self.tp = font()
+        self.lt = Lists()
+        self.read = Speech()
+        self.convert = Convert()
+        mx.init()
         
         menu_principal = MenuPrincipal(self.root)
         self.root.config(menu=menu_principal)
@@ -28,19 +36,22 @@ class Principal:
         self.voz_lb.place(x=550,y=10)
         
         self.voz_ltb = Listbox(self.main_frame, height=3, width=50)
-        self.voz_ltb.insert(END, 'Francisca')
-
+        self.vozes = self.lt.list_vozes()
+        for voz in self.vozes:
+            self.voz_ltb.insert(END, voz)
         self.voz_ltb.place(x=550, y=40)
         
         self.rate_voz_lb = Label(self.main_frame, font=self.tp.font_title, text="Rate:")
         self.rate_voz_lb.place(x=550, y=105)
         
-        self.rate_voz_sc = Scale(self.main_frame, from_=1, to = 400, orient='horizontal', length = 300, resolution=1)
-        self.rate_voz_sc.set(200)
-        self.rate_voz_sc.place(x=550,y=125)
+        # self.rate_voz_sc = Scale(self.main_frame, from_=1, to = 400, orient='horizontal', length = 300, resolution=1)
+        # self.rate_voz_sc.set(200)
+        # self.rate_voz_sc.place(x=550,y=125)
         
         self.ler_bt = Button(self.main_frame, text='Ler', width=10, font=self.tp.font_btn,
-                             )
+                             command=lambda: th(target=self.ler_texto,
+                                                args=(self.tx_text.get('1.0', END),
+                                                      str(self.voz_ltb.get(ACTIVE)))).start())
         self.ler_bt.place(x=410 , y=300 )
         
         self.music_frame = Frame(borderwidth=2, relief='solid')
@@ -53,7 +64,9 @@ class Principal:
         self.musics_lb.place(x=10, y=15)
         
         self.musics_ltb = Listbox(self.music_frame, height=10, width=50)
-        self.musics_ltb.insert(END,'Goiabas.wav')
+        self.backs = self.lt.list_backs()
+        for back in self.backs:
+            self.musics_ltb.insert(END,back)
         self.musics_ltb.place(x=10, y=40)
         
         self.fade_in = BooleanVar()
@@ -134,4 +147,12 @@ class Principal:
         else:
             self.fade_out_sc.config(state='disabled')
 
-
+    def ler_texto(self, texto, voice):
+        self.read.set_voz(voice)
+        self.read.read_text(texto)
+        raw_file = 'app/audio_files/temp/output.raw'
+        wav_file = 'app/audio_files/temp/output.wav'
+        self.convert.raw_to_wav(raw_file, wav_file)
+        mx.music.load(wav_file)
+        mx.music.play()
+        return True
