@@ -5,3 +5,4 @@ app/audio_files/backs/*
 app/audio_files/temp/*
 app/controllers/__pycache__/*
 app/telas/__pycache__/*
+__pycache__/*
