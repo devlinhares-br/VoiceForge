@@ -35,18 +35,12 @@ class Principal:
         self.voz_lb = Label(self.main_frame, font=self.tp.font_title, text="Voz:")
         self.voz_lb.place(x=550,y=10)
         
-        self.voz_ltb = Listbox(self.main_frame, height=3, width=50)
+        self.voz_ltb = Listbox(self.main_frame, height=15, width=50)
         self.vozes = self.lt.list_vozes()
         for voz in self.vozes:
             self.voz_ltb.insert(END, voz)
         self.voz_ltb.place(x=550, y=40)
         
-        self.rate_voz_lb = Label(self.main_frame, font=self.tp.font_title, text="Rate:")
-        self.rate_voz_lb.place(x=550, y=105)
-        
-        # self.rate_voz_sc = Scale(self.main_frame, from_=1, to = 400, orient='horizontal', length = 300, resolution=1)
-        # self.rate_voz_sc.set(200)
-        # self.rate_voz_sc.place(x=550,y=125)
         
         self.ler_bt = Button(self.main_frame, text='Ler', width=10, font=self.tp.font_btn,
                              command=lambda: th(target=self.ler_texto,
@@ -150,9 +144,9 @@ class Principal:
     def ler_texto(self, texto, voice):
         self.read.set_voz(voice)
         self.read.read_text(texto)
-        raw_file = 'app/audio_files/temp/output.raw'
-        wav_file = 'app/audio_files/temp/output.wav'
-        self.convert.raw_to_wav(raw_file, wav_file)
-        mx.music.load(wav_file)
-        mx.music.play()
+        # raw_file = 'app/audio_files/temp/output.raw'
+        # wav_file = 'app/audio_files/temp/output.wav'
+        # self.convert.raw_to_wav(raw_file, wav_file)
+        # mx.music.load(wav_file)
+        # mx.music.play()
         return True
